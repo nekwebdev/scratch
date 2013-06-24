@@ -114,6 +114,10 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
+		// Additional providers.
+		'Zizaco\Confide\ConfideServiceProvider',
+		'Zizaco\Entrust\EntrustServiceProvider',
+
 	),
 
 	/*
@@ -178,6 +182,10 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
+
+		// Additional aliases.
+		'Confide'    => 'Zizaco\Confide\ConfideFacade',
+		'Entrust'    => 'Zizaco\Entrust\EntrustFacade',
 
 	),
 
