@@ -8,7 +8,8 @@
 		"zizaco/entrust": "dev-master"
 	},
 	"require-dev": {
-        "way/generators": "dev-master"
+        "way/generators": "dev-master",
+        "codeception/codeception": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
