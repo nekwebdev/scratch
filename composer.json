@@ -5,11 +5,17 @@
 	"require": {
 		"laravel/framework": "4.0.*",
 		"zizaco/confide": "dev-master",
-		"zizaco/entrust": "dev-master"
+		"zizaco/entrust": "dev-master",
+		"twitter/bootstrap": "dev-master",
+		"fortawesome/font-awesome": "3.2.*@dev",
+		"jasonlewis/basset": "dev-master"
 	},
 	"require-dev": {
         "way/generators": "dev-master",
-        "codeception/codeception": "dev-master"
+        "codeception/codeception": "dev-master",
+        "leafo/lessphp": "0.3.*@dev",
+        "mrclay/minify": "dev-master",
+		"natxet/CssMin": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

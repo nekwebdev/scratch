@@ -19,4 +19,5 @@ composer.lock
 .DS_Store
 .idea/
 
-# Packages
+# Codeception
+/app/tests/_log
