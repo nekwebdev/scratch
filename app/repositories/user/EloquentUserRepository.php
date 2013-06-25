@@ -44,4 +44,14 @@ class EloquentUserRepository implements UserRepositoryInterface
             ->send();
         exit;
     }
+
+    /**
+     * Create a new Confide user object
+     * @param  array  $data User data
+     * @return object       User object
+     */
+    public function instance($data = array())
+    {
+        return new User($data);
+    }
 }

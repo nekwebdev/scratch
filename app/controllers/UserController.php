@@ -37,8 +37,8 @@ class UserController extends BaseController
      */
     public function getIndex()
     {
-    	// Get the authentified user
-        $user = Confide::user();
+        $request = Request::create('/api/v1/user', 'GET');
+        $user = Route::dispatch($request)->getOriginalContent();
 
         // Set the page title.
         $title = Lang::get('user/title.user_management');
@@ -53,11 +53,24 @@ class UserController extends BaseController
      */
     public function getCreate()
     {
+        // If we are already authentified, redirect to the index.
+        if(Auth::user()) return Redirect::action('UserController@getIndex');
+
+        $request = Request::create('/api/v1/user', 'GET');
+        $user = Route::dispatch($request)->getOriginalContent();
+
         // Set the page title.
         $title = Lang::get('user/title.create_a_new_user');
 
-        return View::make('user/create', compact('title'));
+        return View::make('user/create', compact('user', 'title'));
     }
+
+    public function postEdit()
+    {
+
+    }
+
+
 
     /**
      * Stores new account
