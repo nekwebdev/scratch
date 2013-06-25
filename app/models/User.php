@@ -10,6 +10,30 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
 	use HasRole;
 
 	/**
+     * Ardent validation rules
+     *
+     * @var array
+     */
+    public static $rules = array(
+        'username' => 'required|alpha_dash|unique:users',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|between:4,11|confirmed',
+        'password_confirmation' => 'between:4,11',
+    );
+
+    /**
+     * Rules for when updating a user.
+     *
+     * @var array
+     */
+    protected $updateRules = array(
+        'username' => 'required|alpha_dash',
+        'email' => 'required|email',
+        'password' => 'between:4,11|confirmed',
+        'password_confirmation' => 'between:4,11',
+    );
+
+	/**
 	 * The database table used by the model.
 	 *
 	 * @var string

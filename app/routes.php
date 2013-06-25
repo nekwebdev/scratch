@@ -1,5 +1,11 @@
 <?php
 
+/** ------------------------------------------
+ *  Interface repository binding
+ *  ------------------------------------------
+ */
+App::bind('UserRepositoryInterface', 'EloquentUserRepository');
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes

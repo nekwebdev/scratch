@@ -182,7 +182,7 @@ return array(
             |
             */
 
-            'Less' => array('LessFilter', function($filter)
+            'Less' => array('LessphpFilter', function($filter)
             {
                 $filter->whenAssetIs('.*\.less')->findMissingConstructorArgs();
             }),

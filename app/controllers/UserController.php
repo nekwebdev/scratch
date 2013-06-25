@@ -9,7 +9,43 @@
 |
 */
 
-class UserController extends BaseController {
+class UserController extends BaseController
+{
+    /**
+     * User Repository Interface
+     *
+     * @var UserRepositoryInterface
+     */
+    protected $users;
+
+    /**
+     * Create a new controller instance.
+     *
+     * Inject the repository interfaces.
+     *
+     * @param UserRepositoryInterface $users
+     */
+    public function __construct(UserRepositoryInterface $users)
+    {
+        $this->users = $users;
+    }
+
+    /**
+     * User profile.
+     *
+     * @return View
+     */
+    public function getIndex()
+    {
+    	// Get the authentified user
+        $user = Confide::user();
+
+        // Set the page title.
+        $title = Lang::get('user/title.user_management');
+
+        // Show the page
+        return View::make('user/index', compact('user', 'title'));
+    }
 
     /**
      * Displays the form for account creation
@@ -17,7 +53,10 @@ class UserController extends BaseController {
      */
     public function getCreate()
     {
-        return View::make(Config::get('confide::signup_form'));
+        // Set the page title.
+        $title = Lang::get('user/title.create_a_new_user');
+
+        return View::make('user/create', compact('title'));
     }
 
     /**
@@ -26,6 +65,12 @@ class UserController extends BaseController {
      */
     public function postIndex()
     {
+        // Create a user with the POST request data.
+        $this->users->store(Input::all());
+
+
+
+
         $user = new User;
 
         $user->username = Input::get( 'username' );
@@ -36,6 +81,23 @@ class UserController extends BaseController {
         // before saving. This field will be used in Ardent's
         // auto validation.
         $user->password_confirmation = Input::get( 'password_confirmation' );
+
+        // Validate the input.
+        $v = Validator::make(Input::all(), User::$rules);
+
+        if ($v->fails()) {
+            if(Request::ajax())
+            {
+                $response_values = array(
+                    'validation_failed' => 1,
+                    'errors' =>  $v->errors()->toArray());
+                return Response::json($response_values);
+            }
+            else
+            {
+                die(var_dump($v));
+            }
+        }
 
         // Save if valid. Password field will be hashed before save
         $user->save();
@@ -53,7 +115,7 @@ class UserController extends BaseController {
 
                         return Redirect::to('user/create')
                             ->withInput(Input::except('password'))
-                ->with( 'error', $error );
+                            ->with( 'error', $error );
         }
     }
 
@@ -65,7 +127,7 @@ class UserController extends BaseController {
     {
         if( Confide::user() )
         {
-            // If user is logged, redirect to internal 
+            // If user is logged, redirect to internal
             // page, change it to '/admin', '/dashboard' or something
             return Redirect::to('/');
         }
@@ -91,7 +153,7 @@ class UserController extends BaseController {
         // If you wish to only allow login from confirmed users, call logAttempt
         // with the second parameter as true.
         // logAttempt will check if the 'email' perhaps is the username.
-        if ( Confide::logAttempt( $input ) ) 
+        if ( Confide::logAttempt( $input ) )
         {
             // If the session 'loginRedirect' is set, then redirect
             // to that route. Otherwise redirect to '/'
@@ -101,7 +163,7 @@ class UserController extends BaseController {
                 Session::forget('loginRedirect');
                 return Redirect::to($r);
             }
-            
+
             return Redirect::to('/'); // change it to '/admin', '/dashboard' or something
         }
         else
@@ -224,7 +286,7 @@ class UserController extends BaseController {
     public function getLogout()
     {
         Confide::logout();
-        
+
         return Redirect::to('/');
     }
 
