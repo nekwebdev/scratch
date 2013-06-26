@@ -10,8 +10,6 @@ use Redirect;
 
 class UserController extends \BaseController {
 
-
-
 	/**
      * User Repository Interface
      *
@@ -67,12 +65,7 @@ class UserController extends \BaseController {
 	 */
 	public function store()
 	{
-		$validator = \Validator::make(Input::all(), \User::$rules);
-        // if($validator->fails()) throw new ValidationException($validator);
-        if($validator->fails()) {
-            throw new \ValidationException($validator);
-        }
-		// return $this->users->store(Input::all());
+		return $this->users->store(Input::all());
 	}
 
 	/**

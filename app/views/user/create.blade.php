@@ -27,10 +27,10 @@
 
 	{{ Former::horizontal_open()
 		->id('create')
-		->secure()
 		->rules($rules)
 		->method('POST')
 		->action('user') }}
+		{{ Form::token() }}
 
 		@include('user.form')
 

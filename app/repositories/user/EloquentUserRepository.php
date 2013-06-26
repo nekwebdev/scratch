@@ -17,8 +17,7 @@ class EloquentUserRepository implements UserRepositoryInterface
         // Validate the input.
         $this->validate($data);
 
-        // Following is from Confide generated controller
-
+        // Following is adapted from Confide generated controller.
         $user = $this->instance();
 
         $user->username = Input::get( 'username' );
@@ -30,86 +29,18 @@ class EloquentUserRepository implements UserRepositoryInterface
         // auto validation.
         $user->password_confirmation = Input::get( 'password_confirmation' );
 
-        // Validate the input.
-        $v = Validator::make(Input::all(), User::$rules);
-
-        if ($v->fails()) {
-            if(Request::ajax())
-            {
-                $response_values = array(
-                    'validation_failed' => 1,
-                    'errors' =>  $v->errors()->toArray());
-                return Response::json($response_values);
-            }
-            else
-            {
-                die(var_dump($v));
-            }
-        }
-
-        // Save if valid. Password field will be hashed before save
+        // Save if valid. Password field will be hashed before save.
         $user->save();
 
         if ( $user->id )
         {
-            // Redirect with success message, You may replace "Lang::get(..." for your custom message.
-                        return Redirect::to('user/login')
-                            ->with( 'notice', Lang::get('confide::confide.alerts.account_created') );
+            // Our user was created return it!
+            return $user;
         }
         else
         {
-            // Get validation errors (see Ardent package)
-            $error = $user->errors()->all(':message');
-
-                        return Redirect::to('user/create')
-                            ->withInput(Input::except('password'))
-                            ->with( 'error', $error );
+            return false;
         }
-
-        // $validator = Validator::make($data, User::$rules);
-        // // if($validator->fails()) throw new ValidationException($validator);
-        // if($validator->fails()) {
-        //     $errors = $validator->messages();
-        //     if(Request::ajax()){
-        //         return $errors;
-        //     }
-        //     throw new ValidationException($validator);
-        // }
-
-        // $validator = Validator::make($data, User::$rules);
-
-        // if ($validator->fails()) {
-           // if(Request::ajax()) {
-                // $response_values = array(
-                //     'validation_failed' => 1,
-                //     'errors' =>  $validator->errors()->toArray());
-                //     return $response_values;
-                // $errors = $validator->messages();
-                // return $errors;
-
-                    // $errors = $validator->messages()->all(':message');
-                    // return API::createResponse(compact('errors'), 400);
-                    //return API::createResponse($response_values);
-           // }
-            // Redirect back to the user create form with input and errors.
-            // return Redirect::to('user/create')
-            //     ->withInput($data)
-            //     ->withErrors($validator)
-            //     ->send();
-            // exit;
-        // }
-
-        // Save the new user
-        $user = User::create($data);
-
-        // Save roles.
-        $user->saveRoles(Input::get('roles'));
-
-        // Redirect to the admin edit page of the user.
-        Redirect::to('admin/users/' . $user->id . '/edit')
-            ->with('success', Lang::get('admin/users/messages.create.success'))
-            ->send();
-        exit;
     }
 
     /**
@@ -122,19 +53,13 @@ class EloquentUserRepository implements UserRepositoryInterface
         return new User($data);
     }
 
+    /**
+     * validate data according to the User model rules
+     * @param  Input $data  Input to be validated
+     * @return varies       True or an Exception
+     */
     public function validate($data)
     {
-        // $validator = Validator::make($data, User::$rules);
-        // // if($validator->fails()) throw new ValidationException($validator);
-        // if($validator->fails()) {
-        //     $errors = $validator->messages();
-        //     if(Request::ajax()){
-        //         //$type = 'ajax';
-        //         return $errors;
-        //     }
-        // }
-        // return true;
-
         $validator = Validator::make($data, User::$rules);
 
         if($validator->fails()) throw new ValidationException($validator);

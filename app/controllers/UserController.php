@@ -37,6 +37,9 @@ class UserController extends BaseController
      */
     public function getIndex()
     {
+        // If we are not logged in redirect us to login
+        if(!Auth::user()) return Redirect::action('UserController@getLogin');
+
         // Get our currently logged in user.
         $user = API::get('api/v1/user');
 
@@ -69,10 +72,7 @@ class UserController extends BaseController
         return View::make('user/create', compact('user', 'rules', 'title'));
     }
 
-    public function postEdit()
-    {
 
-    }
 
 
 
@@ -82,6 +82,27 @@ class UserController extends BaseController
      */
     public function postIndex()
     {
+        // We assume the validation will be correctly verified on the client side.
+        // Currently using Former for HTML validation.
+        // If the validation fails on the API side an Exception will be thrown,
+        // it will return a JSON of the validation errors.
+        // This will stop the app here for some reason!
+        // So we can't return back to the view with the errors :()
+        // The JSON will be displayed in the browser regardless.
+
+        $user = API::post('api/v1/user', Input::all());
+
+        // If the API returns false instead of throwing an Exception.
+        if(!$user->id) {
+            return Redirect::to('user/create')
+                            ->with_errors('Could not create user');
+        } else {
+            // Redirect with success message, You may replace "Lang::get(..." for your custom message.
+                        return Redirect::to('user/login')
+                            ->with( 'notice', Lang::get('confide::confide.alerts.account_created') );
+        }
+
+
         // // Store the original input of the request and then replace the input with your request instances input.
         // $originalInput = Request::input();
 
@@ -142,8 +163,6 @@ class UserController extends BaseController
         // Request::replace($originalInput);
         // Route::setCurrentRoute($originalRoute);
 
-        $response = API::post('api/v1/user', Input::all());
-
         // $responseArray = json_decode($response);
 
         // if($responseArray['validation_failed']) {
@@ -157,7 +176,7 @@ class UserController extends BaseController
         //     return $response;
         // }
         // return $response;
-        return 'yo';
+
         // return 'real request';
 
 
@@ -211,6 +230,10 @@ class UserController extends BaseController
         // }
     }
 
+    public function postEdit()
+    {
+
+    }
     /**
      * Displays the login form
      *

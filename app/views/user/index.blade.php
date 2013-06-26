@@ -26,7 +26,6 @@
 
 	{{ Former::horizontal_open()
 		->id('edit')
-		->secure()
 		->rules($rules)
 		->method('POST')
 		->action('user/' . $user->id . '/edit') }}

@@ -100,5 +100,3 @@ App::error(function(ValidationException $e, $code)
 /**
  * Permission Filters
  */
-
-Entrust::routeNeedsPermission( 'user', 'manage_profile', Redirect::to('/user/login'));
