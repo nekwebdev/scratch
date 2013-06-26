@@ -25,7 +25,7 @@ class ApiController extends Controller {
         {
             $error = $e->getMessage();
 
-            return $error;
+            return Response::make($error, 400);
         }
     }
 
