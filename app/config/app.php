@@ -119,6 +119,7 @@ return array(
 		'Zizaco\Entrust\EntrustServiceProvider',
 		'Basset\BassetServiceProvider',
 		'Teepluss\Api\ApiServiceProvider',
+		'Former\FormerServiceProvider',
 
 	),
 
@@ -190,6 +191,7 @@ return array(
 		'Entrust'    => 'Zizaco\Entrust\EntrustFacade',
 		'Basset' => 'Basset\Facade',
 		'API' => 'Teepluss\Api\Facades\Api',
+		'Former' => 'Former\Facades\Illuminate',
 
 	),
 

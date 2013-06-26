@@ -80,16 +80,25 @@ Route::filter('csrf', function()
 });
 
 /**
+ * Permission Exception Handler
+ */
+
+App::error(function(PermissionException $e, $code)
+{
+	return Response::json($e->getMessage(), $e->getCode());
+});
+
+/**
  * Validation Exception Handler
  */
+
 App::error(function(ValidationException $e, $code)
 {
-	$message = array(
-		'validation_failed' => 1,
-        'errors' =>  $e->getMessages()->toArray()
-	);
-
-	// return Response::json($message, 200);
-	//return $message;
 	return Response::json($e->getMessages(), $e->getCode());
 });
+
+/**
+ * Permission Filters
+ */
+
+Entrust::routeNeedsPermission( 'user', 'manage_profile', Redirect::to('/user/login'));

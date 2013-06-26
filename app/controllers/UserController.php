@@ -37,16 +37,17 @@ class UserController extends BaseController
      */
     public function getIndex()
     {
-        $request = Request::create('/api/v1/user', 'GET');
-        $user = Route::dispatch($request)->getOriginalContent();
+        // Get our currently logged in user.
+        $user = API::get('api/v1/user');
 
-        //$user = API::get('api/v1/user');
+        // Get the update validation rules.
+        $rules = $user->getUpdateRules();
 
         // Set the page title.
         $title = Lang::get('user/title.user_management');
 
-        // Show the page
-        return View::make('user/index', compact('user', 'title'));
+        // Show the user profile edit page.
+        return View::make('user/index', compact('user','rules', 'title'));
     }
 
     /**
@@ -60,10 +61,12 @@ class UserController extends BaseController
 
         $user = API::get('api/v1/user/create');
 
+        $rules = User::$rules;
+
         // Set the page title.
         $title = Lang::get('user/title.create_a_new_user');
 
-        return View::make('user/create', compact('user', 'title'));
+        return View::make('user/create', compact('user', 'rules', 'title'));
     }
 
     public function postEdit()
@@ -121,32 +124,41 @@ class UserController extends BaseController
         // Route::setCurrentRoute($originalRoute);
         //return 'yo';
 
-        $data = Input::all();
+        // $data = Input::all();
 
-        // Make request.
-        $request = Request::create('/api/v1/user', 'POST', $data);
+        // $originalInput = Request::input();
+        // $originalRoute = Route::getCurrentRoute();
 
-        // Replacce input with parameters.
-        Request::replace($data);
 
-        $response = Route::dispatch($request)->getOriginalContent();
+        // // Make request.
+        // $request = Request::create('/api/v1/user', 'POST');
 
-        // $response = API::post('api/v1/user', Input::all());
+        // // Replacce input with parameters.
+        // // Request::replace($data);
+        // Request::replace($request->input());
+
+        // $response = Route::dispatch($request)->getOriginalContent();
+
+        // Request::replace($originalInput);
+        // Route::setCurrentRoute($originalRoute);
+
+        $response = API::post('api/v1/user', Input::all());
 
         // $responseArray = json_decode($response);
 
         // if($responseArray['validation_failed']) {
         //     return 'yo';
         // }
-        if(Request::ajax()) {
-            $response_values = array(
-                    'validation_failed' => 1,
-                    'errors' =>  $response->errors()->toArray());
-            //return Response::json($response_values);
-            return $response;
-        }
-
-        return 'real request';
+        // if(Request::ajax()) {
+        //     $response_values = array(
+        //             'validation_failed' => 1,
+        //             'errors' =>  $response->errors()->toArray());
+        //     //return Response::json($response_values);
+        //     return $response;
+        // }
+        // return $response;
+        return 'yo';
+        // return 'real request';
 
 
 

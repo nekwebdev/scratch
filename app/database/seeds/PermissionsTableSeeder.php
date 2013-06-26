@@ -21,8 +21,8 @@ class PermissionsTableSeeder extends Seeder {
                 'display_name'	=> 'Manage permissions'
             ),
             array(
-                'name'      	=> 'manage_posts',
-                'display_name'  => 'manage posts'
+                'name'      	=> 'manage_profile',
+                'display_name'  => 'manage profile'
             )
         );
 

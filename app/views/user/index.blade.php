@@ -22,7 +22,16 @@
 	</ul>
 	<!-- ./ tabs -->
 
-	{{ Form::model($user, array('action' => array('UserController@postEdit', $user->id), 'class' => 'form-horizontal')) }}
+	{{-- Form::model($user, array('action' => array('UserController@postEdit', $user->id), 'class' => 'form-horizontal')) --}}
+
+	{{ Former::horizontal_open()
+		->id('edit')
+		->secure()
+		->rules($rules)
+		->method('POST')
+		->action('user/' . $user->id . '/edit') }}
+
+	{{ Former::populate($user) }}
 
 		@include('user.form')
 

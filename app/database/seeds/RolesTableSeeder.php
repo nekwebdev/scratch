@@ -12,18 +12,18 @@ class RolesTableSeeder extends Seeder {
         $adminRole->name = 'admin';
         $adminRole->save();
 
-        // Create the poster role.
-        $commentRole = new Role;
-        $commentRole->name = 'poster';
-        $commentRole->save();
+        // Create the user role.
+        $userRole = new Role;
+        $userRole->name = 'user';
+        $userRole->save();
 
         // Attach the admin role to the admin user.
         $user = User::where('username','=','admin')->first();
         $user->attachRole( $adminRole );
 
-        // Attach the poster role to the regular user.
+        // Attach the user role to the regular user.
         $user = User::where('username','=','user')->first();
-        $user->attachRole( $commentRole );
+        $user->attachRole( $userRole );
     }
 
 }

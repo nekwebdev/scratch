@@ -39,9 +39,12 @@ class UserController extends \BaseController {
 	public function index()
 	{
 		// Get the authentified user
-        return Auth::user();
-        // \API::createResponse(Auth::user());
+		$user = Auth::user();
 
+		// Throw a Permission Exception if we can not manage our profile.
+		if(!$user) throw new \PermissionException('Authentication required');
+
+        return $user;
 	}
 
 	/**
@@ -64,7 +67,12 @@ class UserController extends \BaseController {
 	 */
 	public function store()
 	{
-		return $this->users->store(Input::all());
+		$validator = \Validator::make(Input::all(), \User::$rules);
+        // if($validator->fails()) throw new ValidationException($validator);
+        if($validator->fails()) {
+            throw new \ValidationException($validator);
+        }
+		// return $this->users->store(Input::all());
 	}
 
 	/**

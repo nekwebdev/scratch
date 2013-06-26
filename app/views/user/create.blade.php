@@ -23,55 +23,23 @@
 	<!-- ./ tabs -->
 
 	{{-- Create User Form --}}
-	{{ Form::open(array('action' => 'UserController@postIndex', 'class' => 'form-horizontal', 'id' => 'create')) }}
+	{{-- Form::open(array('action' => 'UserController@postIndex', 'class' => 'form-horizontal', 'id' => 'create')) --}}
+
+	{{ Former::horizontal_open()
+		->id('create')
+		->secure()
+		->rules($rules)
+		->method('POST')
+		->action('user') }}
 
 		@include('user.form')
 
-	{{ Form::close() }}
+	{{ Former::close() }}
 
 @stop
 
 {{-- Scripts --}}
 @section('scripts')
-	<script type="text/javascript">
-		$(document).ready(function()
-		{
-			$('form#ceate').submit(function()
-			{
-				$.ajax({
-					url: "{{ URL::action('UserController@postIndex') }}",
-					type: "post",
-					data: $('form#create').serialize(),
-					datatype: "json",
-					beforeSend: function()
-					{
-						$('#ajax-loading').show();
-						$(".validation-error-inline").hide();
-					}
-					})
-					.done(function(data)
-					{
-						console.log(data);
-						if (data.validation_failed == 1)
-						{
-							var arr = data.errors;
-							$.each(arr, function(index, value)
-							{
-								if (value.length != 0)
-								{
-									$("#" + index).after('<span class="text-error validation-error-inline">' + value + '</span>');
-								}
-							});
-							$('#ajax-loading').hide();
-						}
-					})
-					.fail(function(jqXHR, ajaxOptions, thrownError)
-					{
-						  alert('No response from server');
-					});
-					return false;
-			});
-		});
-	</script>
+
 @stop
 
