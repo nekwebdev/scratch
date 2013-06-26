@@ -40,6 +40,7 @@ class UserController extends \BaseController {
 	{
 		// Get the authentified user
         return Auth::user();
+        // \API::createResponse(Auth::user());
 
 	}
 

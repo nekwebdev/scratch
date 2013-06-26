@@ -8,7 +8,8 @@
 		"zizaco/entrust": "dev-master",
 		"twitter/bootstrap": "dev-master",
 		"fortawesome/font-awesome": "3.2.*@dev",
-		"jasonlewis/basset": "dev-master"
+		"jasonlewis/basset": "dev-master",
+		"teepluss/api": "dev-master"
 	},
 	"require-dev": {
         "way/generators": "dev-master",
@@ -25,7 +26,8 @@
 			"app/database/migrations",
 			"app/database/seeds",
 			"app/tests/TestCase.php",
-			"app/repositories"
+			"app/repositories",
+			"app/errors.php"
 		]
 	},
 	"scripts": {

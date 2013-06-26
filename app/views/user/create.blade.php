@@ -36,7 +36,7 @@
 	<script type="text/javascript">
 		$(document).ready(function()
 		{
-			$('form#create').submit(function()
+			$('form#ceate').submit(function()
 			{
 				$.ajax({
 					url: "{{ URL::action('UserController@postIndex') }}",
@@ -51,6 +51,7 @@
 					})
 					.done(function(data)
 					{
+						console.log(data);
 						if (data.validation_failed == 1)
 						{
 							var arr = data.errors;

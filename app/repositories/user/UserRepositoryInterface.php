@@ -9,6 +9,10 @@ interface UserRepositoryInterface {
 
 	public function store($data);
 
+	public function instance($data);
+
+	public function validate($data);
+
 	// public function update($id, $data);
 
 	// public function destroy($id);

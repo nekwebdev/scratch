@@ -118,6 +118,7 @@ return array(
 		'Zizaco\Confide\ConfideServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
 		'Basset\BassetServiceProvider',
+		'Teepluss\Api\ApiServiceProvider',
 
 	),
 
@@ -187,7 +188,8 @@ return array(
 		// Additional aliases.
 		'Confide'    => 'Zizaco\Confide\ConfideFacade',
 		'Entrust'    => 'Zizaco\Entrust\EntrustFacade',
-		'Basset' => 'Basset\Facade'
+		'Basset' => 'Basset\Facade',
+		'API' => 'Teepluss\Api\Facades\Api',
 
 	),
 

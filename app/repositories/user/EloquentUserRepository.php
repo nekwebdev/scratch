@@ -15,21 +15,28 @@ class EloquentUserRepository implements UserRepositoryInterface
     public function store($data)
     {
         // Validate the input.
+        $this->validate($data);
+
         $validator = Validator::make($data, User::$rules);
 
         if ($validator->fails()) {
-            if(Request::ajax()) {
-                $response_values = array(
-                    'validation_failed' => 1,
-                    'errors' =>  $v->errors()->toArray());
-                return Response::json($response_values);
-            }
+           // if(Request::ajax()) {
+                // $response_values = array(
+                //     'validation_failed' => 1,
+                //     'errors' =>  $validator->errors()->toArray());
+                //     return $response_values;
+                return $validator;
+
+                    // $errors = $validator->messages()->all(':message');
+                    // return API::createResponse(compact('errors'), 400);
+                    //return API::createResponse($response_values);
+           // }
             // Redirect back to the user create form with input and errors.
-            return Redirect::to('user/create')
-                ->withInput($data)
-                ->withErrors($validator)
-                ->send();
-            exit;
+            // return Redirect::to('user/create')
+            //     ->withInput($data)
+            //     ->withErrors($validator)
+            //     ->send();
+            // exit;
         }
 
         // Save the new user
@@ -53,5 +60,16 @@ class EloquentUserRepository implements UserRepositoryInterface
     public function instance($data = array())
     {
         return new User($data);
+    }
+
+    public function validate($data)
+    {
+        $validator = Validator::make($data, User::$rules);
+        // if($validator->fails()) throw new ValidationException($validator);
+        if($validator->fails()) {
+            $message = $validator->errors()->toArray();
+            return Response::json($message);
+        }
+        return true;
     }
 }

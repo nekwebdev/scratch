@@ -78,3 +78,18 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+/**
+ * Validation Exception Handler
+ */
+App::error(function(ValidationException $e, $code)
+{
+	$message = array(
+		'validation_failed' => 1,
+        'errors' =>  $e->getMessages()->toArray()
+	);
+
+	// return Response::json($message, 200);
+	//return $message;
+	return Response::json($e->getMessages(), $e->getCode());
+});

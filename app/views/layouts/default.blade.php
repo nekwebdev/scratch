@@ -10,7 +10,7 @@
 		<!-- ./ navbar -->
 
 		<!-- Notifications -->
-		{{-- @include('notifications') --}}
+		@include('notifications')
 		<!-- ./ notifications -->
 
 		<!-- Content -->

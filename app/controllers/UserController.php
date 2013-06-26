@@ -40,6 +40,8 @@ class UserController extends BaseController
         $request = Request::create('/api/v1/user', 'GET');
         $user = Route::dispatch($request)->getOriginalContent();
 
+        //$user = API::get('api/v1/user');
+
         // Set the page title.
         $title = Lang::get('user/title.user_management');
 
@@ -56,8 +58,7 @@ class UserController extends BaseController
         // If we are already authentified, redirect to the index.
         if(Auth::user()) return Redirect::action('UserController@getIndex');
 
-        $request = Request::create('/api/v1/user', 'GET');
-        $user = Route::dispatch($request)->getOriginalContent();
+        $user = API::get('api/v1/user/create');
 
         // Set the page title.
         $title = Lang::get('user/title.create_a_new_user');
@@ -78,58 +79,124 @@ class UserController extends BaseController
      */
     public function postIndex()
     {
-        // Create a user with the POST request data.
-        $this->users->store(Input::all());
+        // // Store the original input of the request and then replace the input with your request instances input.
+        // $originalInput = Request::input();
+
+        // Request::replace($request->input());
+
+        // // Dispatch your request instance with the router.
+        // $response = Route::dispatch($request);
+
+        // // Replace the input again with the original request input.
+        // Request::replace($originalInput);
+
+
+        // // create a new request to the API resource
+        // $request = Request::create('/api/v1/user', 'POST');
+
+        // $response = Route::dispatch($request)->getOriginalContent();
 
 
 
+        // die(var_dump($response));
 
-        $user = new User;
 
-        $user->username = Input::get( 'username' );
-        $user->email = Input::get( 'email' );
-        $user->password = Input::get( 'password' );
+        // store the original request data and route
+        // $originalInput = Request::input();
+        // $originalRoute = Route::getCurrentRoute();
 
-        // The password confirmation will be removed from model
-        // before saving. This field will be used in Ardent's
-        // auto validation.
-        $user->password_confirmation = Input::get( 'password_confirmation' );
+        // // create a new request to the API resource
+        // $request = Request::create('/api/v1/user', 'POST');
 
-        // Validate the input.
-        $v = Validator::make(Input::all(), User::$rules);
+        // // replace the request input...
+        // Request::replace($request->input());
 
-        if ($v->fails()) {
-            if(Request::ajax())
-            {
-                $response_values = array(
+        // // ...and dispatch this request instance to the router
+        // $response = Route::dispatch($request)->getOriginalContent();
+
+
+
+        // // replace the request input and route back to the original state
+        // Request::replace($originalInput);
+        // Route::setCurrentRoute($originalRoute);
+        //return 'yo';
+
+        $data = Input::all();
+
+        // Make request.
+        $request = Request::create('/api/v1/user', 'POST', $data);
+
+        // Replacce input with parameters.
+        Request::replace($data);
+
+        $response = Route::dispatch($request)->getOriginalContent();
+
+        // $response = API::post('api/v1/user', Input::all());
+
+        // $responseArray = json_decode($response);
+
+        // if($responseArray['validation_failed']) {
+        //     return 'yo';
+        // }
+        if(Request::ajax()) {
+            $response_values = array(
                     'validation_failed' => 1,
-                    'errors' =>  $v->errors()->toArray());
-                return Response::json($response_values);
-            }
-            else
-            {
-                die(var_dump($v));
-            }
+                    'errors' =>  $response->errors()->toArray());
+            //return Response::json($response_values);
+            return $response;
         }
 
-        // Save if valid. Password field will be hashed before save
-        $user->save();
+        return 'real request';
 
-        if ( $user->id )
-        {
-            // Redirect with success message, You may replace "Lang::get(..." for your custom message.
-                        return Redirect::to('user/login')
-                            ->with( 'notice', Lang::get('confide::confide.alerts.account_created') );
-        }
-        else
-        {
-            // Get validation errors (see Ardent package)
-            $error = $user->errors()->all(':message');
 
-                        return Redirect::to('user/create')
-                            ->withInput(Input::except('password'))
-                            ->with( 'error', $error );
-        }
+
+
+        // $user = new User;
+
+        // $user->username = Input::get( 'username' );
+        // $user->email = Input::get( 'email' );
+        // $user->password = Input::get( 'password' );
+
+        // // The password confirmation will be removed from model
+        // // before saving. This field will be used in Ardent's
+        // // auto validation.
+        // $user->password_confirmation = Input::get( 'password_confirmation' );
+
+        // // Validate the input.
+        // $v = Validator::make(Input::all(), User::$rules);
+
+        // if ($v->fails()) {
+        //     if(Request::ajax())
+        //     {
+        //         $response_values = array(
+        //             'validation_failed' => 1,
+        //             'errors' =>  $v->errors()->toArray());
+        //         return Response::json($response_values);
+        //     }
+        //     else
+        //     {
+        //         die(var_dump($v));
+        //     }
+        // }
+
+        // // Save if valid. Password field will be hashed before save
+        // $user->save();
+
+        // if ( $user->id )
+        // {
+        //     // Redirect with success message, You may replace "Lang::get(..." for your custom message.
+        //                 return Redirect::to('user/login')
+        //                     ->with( 'notice', Lang::get('confide::confide.alerts.account_created') );
+        // }
+        // else
+        // {
+        //     // Get validation errors (see Ardent package)
+        //     $error = $user->errors()->all(':message');
+
+        //                 return Redirect::to('user/create')
+        //                     ->withInput(Input::except('password'))
+        //                     ->with( 'error', $error );
+        // }
     }
 
     /**
