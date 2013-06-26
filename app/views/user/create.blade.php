@@ -2,7 +2,7 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{{{ $title }}} :: @parent
+	@parent :: {{{ $title }}}
 @stop
 
 {{-- Meta Information --}}
@@ -22,22 +22,19 @@
 	</ul>
 	<!-- ./ tabs -->
 
-	{{-- Create User Form --}}
-	{{-- Form::open(array('action' => 'UserController@postIndex', 'class' => 'form-horizontal', 'id' => 'create')) --}}
-
+	<!-- Form -->
 	{{ Former::horizontal_open()
 		->id('create')
 		->rules($rules)
 		->method('POST')
 		->action('user') }}
-		{{ Form::token() }}
+
+	{{ Former::token() }}
 
 		@include('user.form')
 
 	{{ Former::close() }}
-@if ( Session::get('notice') )
-            <div class="alert">{{{ Session::get('notice') }}}</div>
-        @endif
+	<!-- ./ form -->
 @stop
 
 {{-- Scripts --}}

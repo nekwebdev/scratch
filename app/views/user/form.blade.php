@@ -5,19 +5,19 @@
 	<div class="tab-pane active" id="tab-general">
 
 		<!-- username -->
-		{{ Former::text('username') }}
+		{{ Former::text('username')->prependIcon('user') }}
 		<!-- ./ username -->
 
 		<!-- Email -->
-		{{ Former::text('email') }}
+		{{ Former::text('email')->prependIcon('envelope') }}
 		<!-- ./ email -->
 
 		<!-- Password -->
-		{{ Former::password('password') }}
+		{{ Former::password('password')->prependIcon('lock') }}
 		<!-- ./ password -->
 
 		<!-- Password Confirm -->
-		{{ Former::password('password_confirmation') }}
+		{{ Former::password('password_confirmation')->prependIcon('repeat') }}
 		<!-- ./ password confirm -->
 
 	</div>

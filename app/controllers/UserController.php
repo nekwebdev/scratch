@@ -1,11 +1,11 @@
 <?php
 /*
 |--------------------------------------------------------------------------
-| Confide Controller Template
+| Front End User Controller
 |--------------------------------------------------------------------------
 |
-| This is the default Confide controller template for controlling user
-| authentication. Feel free to change to your needs.
+| Based on the default Confide controller template for controlling user
+| authentication and profile management.
 |
 */
 
@@ -230,16 +230,13 @@ class UserController extends BaseController
      */
     public function getLogin()
     {
-        if( Confide::user() )
-        {
-            // If user is logged, redirect to internal
-            // page, change it to '/admin', '/dashboard' or something
+
+        $user = Auth::user();
+        if(!empty($user->id)){
             return Redirect::to('/');
         }
-        else
-        {
-            return View::make(Config::get('confide::login_form'));
-        }
+
+        return View::make('user/login');
     }
 
     /**

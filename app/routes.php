@@ -17,18 +17,20 @@ App::bind('UserRepositoryInterface', 'EloquentUserRepository');
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
-
 // Route group for API versioning
 Route::group(array('prefix' => 'api/v1'), function()
 {
     Route::resource('user', 'api\v1\UserController');
 });
 
-// Confide RESTful route
-Route::get('user/confirm/{code}', 'UserController@getConfirm');
-Route::get('user/reset/{token}', 'UserController@getReset');
-Route::controller( 'user', 'UserController');
+// Confide front end user controller routes
+Route::group(array('prefix' => 'user'), function()
+{
+    Route::get('confirm/{code}', 'UserController@getConfirm');
+	Route::get('reset/{token}', 'UserController@getReset');
+	Route::controller( '/', 'UserController');
+});
+
+
+// Home page routes
+Route::controller( '/', 'HomeController');

@@ -1,16 +1,16 @@
 @include('layouts.head')
 
 <body>
-	<!-- Container -->
-	<div class="container">
 
-		<!-- Navbar -->
-		<div class="navbar navbar-inverse navbar-fixed-top">
-		</div>
-		<!-- ./ navbar -->
+	<!-- Navbar -->
+	@include('layouts.nav')
+	<!-- ./ navbar -->
+
+  <!-- Container -->
+  <div class="container">
 
 		<!-- Notifications -->
-		{{-- @include('notifications') --}}
+		@include('notifications')
 		<!-- ./ notifications -->
 
 		<!-- Content -->
@@ -18,23 +18,21 @@
 		<!-- ./ content -->
 
 		<!-- Footer -->
-		<footer class="clearfix">
-			@yield('footer')
-		</footer>
+		@include('layouts.footer')
 		<!-- ./ Footer -->
 
 	</div>
 	<!-- ./ container -->
 
-	<!-- Javascripts -->
-    {{ Basset::show('public.js') }}
+  <!-- Javascripts -->
+  {{ Basset::show('public.js') }}
 
-    <script type="text/javascript">
+  <script type="text/javascript">
 
-    </script>
+  </script>
 
-    @yield('scripts')
-    <!-- ./ javascripts -->
+  @yield('scripts')
+  <!-- ./ javascripts -->
 
 </body>
 

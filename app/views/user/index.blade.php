@@ -2,7 +2,7 @@
 
 {{-- Web site Title --}}
 @section('title')
-	{{{ $title }}} :: @parent
+	@parent :: {{{ $title }}}
 @stop
 
 {{-- Meta Information --}}
