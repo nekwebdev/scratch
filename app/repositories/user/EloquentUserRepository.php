@@ -39,6 +39,7 @@ class EloquentUserRepository implements UserRepositoryInterface
         }
         else
         {
+            // Should not really happen...
             return false;
         }
     }

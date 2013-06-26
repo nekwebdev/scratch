@@ -72,33 +72,23 @@ class UserController extends BaseController
         return View::make('user/create', compact('user', 'rules', 'title'));
     }
 
-
-
-
-
     /**
      * Stores new account
      *
      */
     public function postIndex()
     {
-        // We assume the validation will be correctly verified on the client side.
-        // Currently using Former for HTML validation.
-        // If the validation fails on the API side an Exception will be thrown,
-        // it will return a JSON of the validation errors.
-        // This will stop the app here for some reason!
-        // So we can't return back to the view with the errors :()
-        // The JSON will be displayed in the browser regardless.
-
         $user = API::post('api/v1/user', Input::all());
 
-        // If the API returns false instead of throwing an Exception.
-        if(!$user->id) {
+        // If the API throws a ValidationException $user will be a JSON string with our errors.
+        if($user[1]) {
+            $errors = json_decode($user, true);
+            // Will happen when validation is refused because of a unique requirement on the field.
             return Redirect::to('user/create')
-                            ->with_errors('Could not create user');
+                            ->withErrors($errors);
         } else {
             // Redirect with success message, You may replace "Lang::get(..." for your custom message.
-                        return Redirect::to('user/login')
+            return Redirect::to('user/login')
                             ->with( 'notice', Lang::get('confide::confide.alerts.account_created') );
         }
 

@@ -8,7 +8,7 @@ use View;
 use Auth;
 use Redirect;
 
-class UserController extends \BaseController {
+class UserController extends \ApiController {
 
 	/**
      * User Repository Interface
@@ -32,6 +32,8 @@ class UserController extends \BaseController {
 	/**
 	 * Get the logged in user data.
 	 *
+	 * Response to a GET request to api/v1/user
+	 *
 	 * @return Response
 	 */
 	public function index()
@@ -48,6 +50,8 @@ class UserController extends \BaseController {
 	/**
 	 * Get a blank user for creation.
 	 *
+	 * Response to a GET request to api/v1/user/create
+	 *
 	 * @return Response
 	 */
 	public function create()
@@ -60,6 +64,8 @@ class UserController extends \BaseController {
 
 	/**
 	 * Store a newly created user in storage.
+	 *
+	 * Response to a POST request to api/v1/user
 	 *
 	 * @return Response
 	 */
