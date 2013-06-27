@@ -38,7 +38,7 @@ class UserController extends ApiController {
 	 */
 	public function index()
 	{
-        return $this->users->findAll();;
+        return $this->users->findAll();
 	}
 
 	/**

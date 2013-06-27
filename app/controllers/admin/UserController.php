@@ -10,6 +10,8 @@ use Confide;
 use Redirect;
 use API;
 use User;
+use Input;
+use Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,20 +44,18 @@ class UserController extends BaseController {
     }
 
     /**
-     * User profile edit form
+     * Display a listing of the users.
      *
      * @return View
      */
-    public function getIndex()
+    public function index()
     {
-        // If we are not logged in redirect us to login.
-        if(Auth::guest()) return Redirect::action('UserController@getLogin');
+        // Set the page title.
+        $title = Lang::get('admin/users/title.user_management');
 
-        // Get the data needed for the view.
-        $user = Auth::user();
-        $rules = $user->getUpdateRules();
-        $title = Lang::get('user/title.user_management');
-
-        return View::make('user/index', compact('user','rules', 'title'));
+        // There is no need to send any data to the view.
+        // The datatables will be calling the getData method.
+        return View::make('admin.users.index', compact('title'));
     }
+
 }
