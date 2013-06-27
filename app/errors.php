@@ -1,12 +1,11 @@
 <?php
 
-class PermissionException extends Exception {
-
+class PermissionException extends Exception
+{
     public function __construct($message = null, $code = 403)
     {
         parent::__construct($message ?: 'Action not allowed', $code);
     }
-
 }
 
 class ValidationException extends Exception {
@@ -28,5 +27,12 @@ class ValidationException extends Exception {
     {
         return $this->messages;
     }
+}
 
+class NotFoundException extends Exception {
+
+  public function __construct($message = null, $code = 404)
+  {
+    parent::__construct($message ?: 'Resource Not Found', $code);
+  }
 }

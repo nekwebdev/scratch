@@ -25,7 +25,11 @@ class ApiController extends Controller {
         {
             $error = $e->getMessage();
 
-            return Response::make($error, 400);
+            $response = Response::make($error, 400);
+
+            $response->headers->set('Content-Type', 'application/json');
+
+            return $response;
         }
     }
 

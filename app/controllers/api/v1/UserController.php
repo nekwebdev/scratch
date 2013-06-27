@@ -30,7 +30,7 @@ class UserController extends \ApiController {
     }
 
 	/**
-	 * Get the logged in user data.
+	 * Display a listing of the users.
 	 *
 	 * Response to a GET request to api/v1/user
 	 *
@@ -38,13 +38,7 @@ class UserController extends \ApiController {
 	 */
 	public function index()
 	{
-		// Get the authentified user
-		$user = Auth::user();
-
-		// Throw a Permission Exception if we can not manage our profile.
-		if(!$user) throw new \PermissionException('Authentication required');
-
-        return $user;
+        return $this->users->findAll();;
 	}
 
 	/**
@@ -75,14 +69,16 @@ class UserController extends \ApiController {
 	}
 
 	/**
-	 * Display the specified resource.
+	 * Return the object of the specified user.
+	 *
+	 * Response to a GET request to api/v1/user/$id
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
 	public function show($id)
 	{
-		//
+        return $this->users->findById($id);
 	}
 
 	/**
@@ -93,18 +89,18 @@ class UserController extends \ApiController {
 	 */
 	public function edit($id)
 	{
-		//
+		// admin functionality
 	}
 
 	/**
 	 * Update the specified resource in storage.
 	 *
 	 * @param  int  $id
-	 * @return Response
+	 * @return Object
 	 */
 	public function update($id)
 	{
-		//
+        return $this->users->update($id, Input::all());
 	}
 
 	/**
