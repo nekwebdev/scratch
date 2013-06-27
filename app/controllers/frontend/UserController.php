@@ -10,6 +10,8 @@ use Confide;
 use Redirect;
 use API;
 use User;
+use Input;
+use Session;
 
 /*
 |--------------------------------------------------------------------------
