@@ -119,9 +119,7 @@ class UserController extends BaseController {
      */
     public function getLogin()
     {
-        $user = Auth::user();
-
-        if($user->id){
+        if(Auth::user()){
             return Redirect::action('UserController@getIndex');
         }
 

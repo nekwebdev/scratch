@@ -1,7 +1,6 @@
 <?php
 namespace api\v1;
 
-use BaseController;
 use UserRepositoryInterface;
 use Input;
 use View;

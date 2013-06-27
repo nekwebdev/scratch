@@ -17,7 +17,9 @@
 		<!-- ./ password -->
 
 		<!-- Password Confirm -->
-		{{ Former::password('password_confirmation')->prependIcon('repeat') }}
+		{{ Former::password('password_confirmation')
+					->label('Confirm Password')
+					->prependIcon('repeat') }}
 		<!-- ./ password confirm -->
 
 	</div>
