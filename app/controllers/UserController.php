@@ -9,8 +9,8 @@
 |
 */
 
-class UserController extends BaseController
-{
+class UserController extends BaseController {
+
     /**
      * User Repository Interface
      *
@@ -19,7 +19,7 @@ class UserController extends BaseController
     protected $users;
 
     /**
-     * Create a new controller instance.
+     * Create a new controller instance
      *
      * Inject the repository interfaces.
      *
@@ -31,217 +31,107 @@ class UserController extends BaseController
     }
 
     /**
-     * User profile.
+     * User profile edit form
      *
      * @return View
      */
     public function getIndex()
     {
-        // If we are not logged in redirect us to login
-        if(!Auth::user()) return Redirect::action('UserController@getLogin');
+        // If we are not logged in redirect us to login.
+        if(Auth::guest()) return Redirect::action('UserController@getLogin');
 
-        // Get our currently logged in user.
-        $user = API::get('api/v1/user');
-
-        // Get the update validation rules.
+        // Get the data needed for the view.
+        $user = Auth::user();
         $rules = $user->getUpdateRules();
-
-        // Set the page title.
         $title = Lang::get('user/title.user_management');
 
-        // Show the user profile edit page.
         return View::make('user/index', compact('user','rules', 'title'));
     }
 
     /**
      * Displays the form for account creation
      *
+     * @return View
      */
     public function getCreate()
     {
-        // If we are already authentified, redirect to the index.
+        // If we are already authentified, redirect to the profile page.
         if(Auth::user()) return Redirect::action('UserController@getIndex');
 
+        // Get the data needed for the view.
         $user = API::get('api/v1/user/create');
-
         $rules = User::$rules;
-
-        // Set the page title.
         $title = Lang::get('user/title.create_a_new_user');
 
         return View::make('user/create', compact('user', 'rules', 'title'));
     }
 
     /**
-     * Stores new account
+     * Stores a new user account
      *
+     * @return Redirect
      */
     public function postIndex()
     {
         $user = API::post('api/v1/user', Input::all());
 
         // If the API throws a ValidationException $user will be a JSON string with our errors.
-        if($user[1]) {
+        if(is_string($user)) {
             $errors = json_decode($user, true);
-            // Will happen when validation is refused because of a unique requirement on the field.
-            return Redirect::to('user/create')
+            return Redirect::action('UserController@getCreate')
                             ->withErrors($errors);
         } else {
-            // Redirect with success message, You may replace "Lang::get(..." for your custom message.
-            return Redirect::to('user/login')
-                            ->with( 'notice', Lang::get('confide::confide.alerts.account_created') );
+            // Redirect with success message
+            return Redirect::action('UserController@getLogin')
+                            ->with('success', Lang::get('confide::confide.alerts.account_created'));
         }
-
-
-        // // Store the original input of the request and then replace the input with your request instances input.
-        // $originalInput = Request::input();
-
-        // Request::replace($request->input());
-
-        // // Dispatch your request instance with the router.
-        // $response = Route::dispatch($request);
-
-        // // Replace the input again with the original request input.
-        // Request::replace($originalInput);
-
-
-        // // create a new request to the API resource
-        // $request = Request::create('/api/v1/user', 'POST');
-
-        // $response = Route::dispatch($request)->getOriginalContent();
-
-
-
-        // die(var_dump($response));
-
-
-        // store the original request data and route
-        // $originalInput = Request::input();
-        // $originalRoute = Route::getCurrentRoute();
-
-        // // create a new request to the API resource
-        // $request = Request::create('/api/v1/user', 'POST');
-
-        // // replace the request input...
-        // Request::replace($request->input());
-
-        // // ...and dispatch this request instance to the router
-        // $response = Route::dispatch($request)->getOriginalContent();
-
-
-
-        // // replace the request input and route back to the original state
-        // Request::replace($originalInput);
-        // Route::setCurrentRoute($originalRoute);
-        //return 'yo';
-
-        // $data = Input::all();
-
-        // $originalInput = Request::input();
-        // $originalRoute = Route::getCurrentRoute();
-
-
-        // // Make request.
-        // $request = Request::create('/api/v1/user', 'POST');
-
-        // // Replacce input with parameters.
-        // // Request::replace($data);
-        // Request::replace($request->input());
-
-        // $response = Route::dispatch($request)->getOriginalContent();
-
-        // Request::replace($originalInput);
-        // Route::setCurrentRoute($originalRoute);
-
-        // $responseArray = json_decode($response);
-
-        // if($responseArray['validation_failed']) {
-        //     return 'yo';
-        // }
-        // if(Request::ajax()) {
-        //     $response_values = array(
-        //             'validation_failed' => 1,
-        //             'errors' =>  $response->errors()->toArray());
-        //     //return Response::json($response_values);
-        //     return $response;
-        // }
-        // return $response;
-
-        // return 'real request';
-
-
-
-
-        // $user = new User;
-
-        // $user->username = Input::get( 'username' );
-        // $user->email = Input::get( 'email' );
-        // $user->password = Input::get( 'password' );
-
-        // // The password confirmation will be removed from model
-        // // before saving. This field will be used in Ardent's
-        // // auto validation.
-        // $user->password_confirmation = Input::get( 'password_confirmation' );
-
-        // // Validate the input.
-        // $v = Validator::make(Input::all(), User::$rules);
-
-        // if ($v->fails()) {
-        //     if(Request::ajax())
-        //     {
-        //         $response_values = array(
-        //             'validation_failed' => 1,
-        //             'errors' =>  $v->errors()->toArray());
-        //         return Response::json($response_values);
-        //     }
-        //     else
-        //     {
-        //         die(var_dump($v));
-        //     }
-        // }
-
-        // // Save if valid. Password field will be hashed before save
-        // $user->save();
-
-        // if ( $user->id )
-        // {
-        //     // Redirect with success message, You may replace "Lang::get(..." for your custom message.
-        //                 return Redirect::to('user/login')
-        //                     ->with( 'notice', Lang::get('confide::confide.alerts.account_created') );
-        // }
-        // else
-        // {
-        //     // Get validation errors (see Ardent package)
-        //     $error = $user->errors()->all(':message');
-
-        //                 return Redirect::to('user/create')
-        //                     ->withInput(Input::except('password'))
-        //                     ->with( 'error', $error );
-        // }
     }
 
+    /**
+     * Edits the authentified user's account.
+     *
+     * @return Redirect
+     */
     public function postEdit()
     {
+        // If we are not authentified, redirect to the login page.
+        if(Auth::guest()) return Redirect::action('UserController@getLogin');
 
+        $loggedUser = Auth::user();
+
+        $user = API::put('api/v1/user/' . $loggedUser->id, Input::all());
+
+        // If the API throws a ValidationException $user will be a JSON string with our errors.
+        if(is_string($user)) {
+            $errors = json_decode($user, true);
+            return Redirect::action('UserController@getIndex')
+                            ->withErrors($errors);
+        } else {
+            return Redirect::action('UserController@getIndex')
+                            ->with('success', 'Profile edited!');
+        }
     }
+
     /**
      * Displays the login form
      *
+     * @return View
      */
     public function getLogin()
     {
-
         $user = Auth::user();
-        if(!empty($user->id)){
-            return Redirect::to('/');
+
+        if($user->id){
+            return Redirect::action('UserController@getIndex')
         }
 
         return View::make('user/login');
     }
 
     /**
-     * Attempt to do login
+     * Attempt to log the user in
      *
+     * @return Redirect
      */
     public function postLogin()
     {

@@ -98,5 +98,13 @@ App::error(function(ValidationException $e, $code)
 });
 
 /**
+ * Not Found Exception Handler
+ */
+App::error(function(NotFoundException $e)
+{
+  return Response::json($e->getMessage(), $e->getCode());
+});
+
+/**
  * Permission Filters
  */

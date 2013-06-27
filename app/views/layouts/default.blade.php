@@ -10,7 +10,7 @@
   <div class="container">
 
 		<!-- Notifications -->
-		@include('notifications')
+		@include('layouts.notifications')
 		<!-- ./ notifications -->
 
 		<!-- Content -->

@@ -21,7 +21,7 @@
 	                    	<li><a href="{{{ URL::to('admin') }}}">Admin Panel</a></li>
 	                    @endif
 
-	                    <li><a href="{{{ URL::to('user') }}}">Logged in as {{{ Auth::user()->username }}}</a></li>
+	                    <li><a href="{{{ URL::to('user') }}}">{{{ Auth::user()->username }}}'s profile</a></li>
 
 	                    <li><a href="{{{ URL::to('user/logout') }}}">Logout</a></li>
 

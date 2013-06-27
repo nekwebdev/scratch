@@ -28,7 +28,7 @@
 		->id('edit')
 		->rules($rules)
 		->method('POST')
-		->action('user/' . $user->id . '/edit') }}
+		->action('user/edit') }}
 
 	{{ Former::populate($user) }}
 
