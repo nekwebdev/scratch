@@ -1,4 +1,16 @@
 <?php
+namespace frontend;
+
+use BaseController;
+use UserRepositoryInterface;
+use Auth;
+use Lang;
+use View;
+use Confide;
+use Redirect;
+use API;
+use User;
+
 /*
 |--------------------------------------------------------------------------
 | Front End User Controller

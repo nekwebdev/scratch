@@ -1,13 +1,14 @@
 <?php
 namespace api\v1;
 
+use ApiController;
 use UserRepositoryInterface;
 use Input;
 use View;
 use Auth;
 use Redirect;
 
-class UserController extends \ApiController {
+class UserController extends ApiController {
 
 	/**
      * User Repository Interface

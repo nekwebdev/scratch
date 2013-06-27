@@ -26,9 +26,9 @@ Route::group(array('prefix' => 'api/v1'), function()
 // Confide front end user controller routes
 Route::group(array('prefix' => 'user'), function()
 {
-    Route::get('confirm/{code}', 'UserController@getConfirm');
-	Route::get('reset/{token}', 'UserController@getReset');
-	Route::controller( '/', 'UserController');
+    Route::get('confirm/{code}', 'frontend\UserController@getConfirm');
+	Route::get('reset/{token}', 'frontend\UserController@getReset');
+	Route::controller( '/', 'frontend\UserController');
 });
 
 
