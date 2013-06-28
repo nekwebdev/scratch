@@ -50,9 +50,6 @@ class RoleController extends ApiController {
 	 */
 	public function create()
 	{
-		// If we are already authentified, redirect to the index.
-		if(Auth::role()) return Redirect::action('api\v1\RoleController@index');
-
 		return $this->roles->instance();
 	}
 
@@ -89,7 +86,7 @@ class RoleController extends ApiController {
 	 */
 	public function edit($id)
 	{
-		// admin functionality
+		return $this->roles->findById($id);
 	}
 
 	/**
@@ -111,7 +108,7 @@ class RoleController extends ApiController {
 	 */
 	public function destroy($id)
 	{
-		//
+		return $this->roles->destroy($id);
 	}
 
 }

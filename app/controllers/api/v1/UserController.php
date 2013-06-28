@@ -51,7 +51,7 @@ class UserController extends ApiController {
 	public function create()
 	{
 		// If we are already authentified, redirect to the index.
-		if(Auth::user()) return Redirect::action('api\v1\UserController@index');
+		// if(Auth::user()) return Redirect::action('api\v1\UserController@index');
 
 		return $this->users->instance();
 	}
@@ -89,7 +89,7 @@ class UserController extends ApiController {
 	 */
 	public function edit($id)
 	{
-		// admin functionality
+		return $this->users->findById($id);
 	}
 
 	/**
@@ -111,7 +111,7 @@ class UserController extends ApiController {
 	 */
 	public function destroy($id)
 	{
-		//
+		return $this->users->destroy($id);
 	}
 
 }

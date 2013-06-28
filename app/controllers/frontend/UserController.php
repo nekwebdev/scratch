@@ -30,13 +30,7 @@ class UserController extends BaseController {
      *
      * @var UserRepositoryInterface
      */
-    protected $users2;
-
-    /**
-     * Holds the meta data for the view
-     * @var Array
-     */
-  //  protected $meta;
+    protected $users;
 
     /**
      * Create a new controller instance
@@ -45,9 +39,9 @@ class UserController extends BaseController {
      *
      * @param UserRepositoryInterface $users
      */
-    public function __construct(UserRepositoryInterface $users2)
+    public function __construct(UserRepositoryInterface $users)
     {
-        $this->users = $users2;
+        $this->users = $users;
 
         $this->meta = array(
             'title' => 'Default',
@@ -87,7 +81,8 @@ class UserController extends BaseController {
         if(Auth::user()) return Redirect::action('frontend\UserController@getIndex');
 
         // Get the data needed for the view.
-        $user = API::get('api/v1/user/create');
+        $user = -> $this->users->instance();
+        // $user = API::get('api/v1/user/create');
         $rules = User::$rules;
         $meta = $this->meta;
         $meta['title'] = Lang::get('user/title.create_a_new_user');
@@ -102,7 +97,8 @@ class UserController extends BaseController {
      */
     public function postIndex()
     {
-        $user = API::post('api/v1/user', Input::all());
+        $user = $this->users->store(Input::all());
+        // $user = API::post('api/v1/user', Input::all());
 
         // If the API throws a ValidationException $user will be a JSON string with our errors.
         if(is_string($user)) {
@@ -126,9 +122,8 @@ class UserController extends BaseController {
         // If we are not authentified, redirect to the login page.
         if(Auth::guest()) return Redirect::action('frontend\UserController@getLogin');
 
-        $loggedUser = Auth::user();
-
-        $user = API::put('api/v1/user/' . $loggedUser->id, Input::all());
+        $user = $this->users->edit(Auth::user()->id, Input::all());
+        // $user = API::put('api/v1/user/' . Auth::user()->id, Input::all());
 
         // If the API throws a ValidationException $user will be a JSON string with our errors.
         if(is_string($user)) {

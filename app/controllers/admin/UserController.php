@@ -26,14 +26,30 @@ use Datatables;
 class UserController extends BaseController {
 
     /**
+     * User Repository Interface
+     *
+     * @var UserRepositoryInterface
+     */
+    protected $users;
+
+    /**
+     * Role Repository Interface
+     *
+     * @var RoleRepositoryInterface
+     */
+    protected $roles;
+
+    /**
      * Create a new controller instance
      *
      * Inject the repository interfaces.
      *
      * @param UserRepositoryInterface $users
      */
-    public function __construct()
+    public function __construct(UserRepositoryInterface $users, RoleRepositoryInterface $roles)
     {
+        $this->users = $users;
+        $this->roles = $roles;
         $this->meta = array(
             'title' => 'Default',
             'author' => 'Me',
