@@ -1,13 +1,17 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
 @include('layouts.head')
 
 <body>
 
 	<!-- Navbar -->
-	@include('layouts.nav')
+	@yield('navbar')
 	<!-- ./ navbar -->
 
-  <!-- Container -->
-  <div class="container">
+	<!-- Container -->
+	<div class="container">
 
 		<!-- Notifications -->
 		@include('layouts.notifications')
@@ -18,21 +22,21 @@
 		<!-- ./ content -->
 
 		<!-- Footer -->
-		@include('layouts.footer')
+		@yield('footer')
 		<!-- ./ Footer -->
 
 	</div>
 	<!-- ./ container -->
 
-  <!-- Javascripts -->
-  {{ Basset::show('public.js') }}
+	<!-- Javascripts -->
+	{{-- Main Javascript Files --}}
+	@yield('js')
 
-  <script type="text/javascript">
-
-  </script>
-
-  @yield('scripts')
-  <!-- ./ javascripts -->
+	{{-- Extra JavaScripts --}}
+	@section('scripts')
+		<script type="text/javascript"></script>
+	@show
+	<!-- ./ javascripts -->
 
 </body>
 

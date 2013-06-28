@@ -1,14 +1,9 @@
-@extends('layouts.default')
+@extends('frontend.user.template')
 
-{{-- Web site Title --}}
-@section('title')
-	@parent :: {{{ $title }}}
+{{-- Extra CSS styles --}}
+@section('syles')
+	<style type="text/css"></style>
 @stop
-
-{{-- Meta Information --}}
-@section('keywords')User creation @stop
-@section('author')Author @stop
-@section('description')User creation page @stop
 
 {{-- Content --}}
 @section('content')
@@ -22,6 +17,7 @@
 	</ul>
 	<!-- ./ tabs -->
 
+	{{-- Create a user form --}}
 	<!-- Form -->
 	{{ Former::horizontal_open()
 		->id('create')
@@ -31,14 +27,13 @@
 
 	{{ Former::token() }}
 
-		@include('user.form')
+		@include('frontend.user.form')
 
 	{{ Former::close() }}
 	<!-- ./ form -->
 @stop
 
-{{-- Scripts --}}
+{{-- Extra JavaScripts --}}
 @section('scripts')
-
+	<script type="text/javascript"></script>
 @stop
-

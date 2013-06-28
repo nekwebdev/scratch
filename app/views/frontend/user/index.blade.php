@@ -1,14 +1,9 @@
-@extends('layouts.default')
+@extends('frontend.user.template')
 
-{{-- Web site Title --}}
-@section('title')
-	@parent :: {{{ $title }}}
+{{-- Extra CSS styles --}}
+@section('syles')
+	<style type="text/css"></style>
 @stop
-
-{{-- Meta Information --}}
-@section('keywords')User administration @stop
-@section('author')Author @stop
-@section('description')User administration page @stop
 
 {{-- Content --}}
 @section('content')
@@ -22,18 +17,25 @@
 	</ul>
 	<!-- ./ tabs -->
 
-	{{-- Form::model($user, array('action' => array('UserController@postEdit', $user->id), 'class' => 'form-horizontal')) --}}
-
+	{{-- Edit a profile form --}}
+	<!-- Form -->
 	{{ Former::horizontal_open()
 		->id('edit')
 		->rules($rules)
 		->method('POST')
 		->action('user/edit') }}
 
+	{{ Former::token() }}
+
 	{{ Former::populate($user) }}
 
-		@include('user.form')
+		@include('frontend.user.form')
 
 	{{ Form::close() }}
+	<!-- ./ form -->
+@stop
 
+{{-- Extra JavaScripts --}}
+@section('scripts')
+	<script type="text/javascript"></script>
 @stop

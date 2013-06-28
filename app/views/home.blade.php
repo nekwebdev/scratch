@@ -1,23 +1,18 @@
-@extends('layouts.default')
+@extends('template')
 
-{{-- Web site Title --}}
-@section('title')
-	@parent :: Home Page
+{{-- Extra CSS styles --}}
+@section('syles')
+	<style type="text/css"></style>
 @stop
-
-{{-- Meta Information --}}
-@section('keywords')home page @stop
-@section('author')Author @stop
-@section('description')Home page @stop
 
 {{-- Content --}}
 @section('content')
 	<div class="page-header">
-		<h3>Welcome to the home page.</h3>
+		<h1>Welcome to the home page.</h1>
 	</div>
 @stop
 
-{{-- Scripts --}}
+{{-- Extra JavaScripts --}}
 @section('scripts')
-
+	<script type="text/javascript"></script>
 @stop

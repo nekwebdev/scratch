@@ -1,14 +1,9 @@
-@extends('layouts.default')
+@extends('frontend.user.template')
 
-{{-- Web site Title --}}
-@section('title')
-	@parent
+{{-- Extra CSS styles --}}
+@section('syles')
+	<style type="text/css"></style>
 @stop
-
-{{-- Meta Information --}}
-@section('keywords')User creation @stop
-@section('author')Author @stop
-@section('description')User creation page @stop
 
 {{-- Content --}}
 @section('content')
@@ -16,9 +11,8 @@
 		<h3>Login</h3>
 	</div>
 
-	{{-- Create User Form --}}
-	{{-- Form::open(array('action' => 'UserController@postIndex', 'class' => 'form-horizontal', 'id' => 'create')) --}}
-
+	{{-- Login form --}}
+	<!-- Form -->
 	{{ Former::horizontal_open()
 		->id('login')
 		->method('POST')
@@ -42,7 +36,8 @@
 
 	{{ Former::close() }}
 @stop
-{{-- Scripts --}}
-@section('scripts')
 
+{{-- Extra JavaScripts --}}
+@section('scripts')
+	<script type="text/javascript"></script>
 @stop

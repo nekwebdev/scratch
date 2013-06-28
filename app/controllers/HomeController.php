@@ -8,9 +8,21 @@ class HomeController extends BaseController {
 	|--------------------------------------------------------------------------
 	*/
 
+	public function __construct()
+    {
+        $this->meta = array(
+            'title' => 'Default',
+            'author' => 'Me',
+            'keywords' => 'Keywords',
+            'description' => 'Description'
+        );
+    }
+
 	public function getIndex()
 	{
-		return View::make('home');
+        $meta = $this->meta;
+        $meta['title'] = 'Home Page';
+		return View::make('home', compact('meta'));
 	}
 
 }

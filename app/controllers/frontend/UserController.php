@@ -30,7 +30,13 @@ class UserController extends BaseController {
      *
      * @var UserRepositoryInterface
      */
-    protected $users;
+    protected $users2;
+
+    /**
+     * Holds the meta data for the view
+     * @var Array
+     */
+  //  protected $meta;
 
     /**
      * Create a new controller instance
@@ -39,9 +45,16 @@ class UserController extends BaseController {
      *
      * @param UserRepositoryInterface $users
      */
-    public function __construct(UserRepositoryInterface $users)
+    public function __construct(UserRepositoryInterface $users2)
     {
-        $this->users = $users;
+        $this->users = $users2;
+
+        $this->meta = array(
+            'title' => 'Default',
+            'author' => 'Me',
+            'keywords' => 'Keywords',
+            'description' => 'Description'
+        );
     }
 
     /**
@@ -52,14 +65,15 @@ class UserController extends BaseController {
     public function getIndex()
     {
         // If we are not logged in redirect us to login.
-        if(Auth::guest()) return Redirect::action('UserController@getLogin');
+        if(Auth::guest()) return Redirect::action('frontend\UserController@getLogin');
 
         // Get the data needed for the view.
         $user = Auth::user();
         $rules = $user->getUpdateRules();
-        $title = Lang::get('user/title.user_management');
+        $meta = $this->meta;
+        $meta['title'] = Lang::get('user/title.user_management');
 
-        return View::make('user/index', compact('user','rules', 'title'));
+        return View::make('frontend/user/index', compact('user','rules', 'meta'));
     }
 
     /**
@@ -70,14 +84,15 @@ class UserController extends BaseController {
     public function getCreate()
     {
         // If we are already authentified, redirect to the profile page.
-        if(Auth::user()) return Redirect::action('UserController@getIndex');
+        if(Auth::user()) return Redirect::action('frontend\UserController@getIndex');
 
         // Get the data needed for the view.
         $user = API::get('api/v1/user/create');
         $rules = User::$rules;
-        $title = Lang::get('user/title.create_a_new_user');
+        $meta = $this->meta;
+        $meta['title'] = Lang::get('user/title.create_a_new_user');
 
-        return View::make('user/create', compact('user', 'rules', 'title'));
+        return View::make('frontend/user/create', compact('user', 'rules', 'meta'));
     }
 
     /**
@@ -92,11 +107,11 @@ class UserController extends BaseController {
         // If the API throws a ValidationException $user will be a JSON string with our errors.
         if(is_string($user)) {
             $errors = json_decode($user, true);
-            return Redirect::action('UserController@getCreate')
+            return Redirect::action('frontend\UserController@getCreate')
                             ->withErrors($errors);
         } else {
             // Redirect with success message
-            return Redirect::action('UserController@getLogin')
+            return Redirect::action('frontend\UserController@getLogin')
                             ->with('success', Lang::get('confide::confide.alerts.account_created'));
         }
     }
@@ -109,7 +124,7 @@ class UserController extends BaseController {
     public function postEdit()
     {
         // If we are not authentified, redirect to the login page.
-        if(Auth::guest()) return Redirect::action('UserController@getLogin');
+        if(Auth::guest()) return Redirect::action('frontend\UserController@getLogin');
 
         $loggedUser = Auth::user();
 
@@ -118,10 +133,10 @@ class UserController extends BaseController {
         // If the API throws a ValidationException $user will be a JSON string with our errors.
         if(is_string($user)) {
             $errors = json_decode($user, true);
-            return Redirect::action('UserController@getIndex')
+            return Redirect::action('frontend\UserController@getIndex')
                             ->withErrors($errors);
         } else {
-            return Redirect::action('UserController@getIndex')
+            return Redirect::action('frontend\UserController@getIndex')
                             ->with('success', 'Profile edited!');
         }
     }
@@ -134,10 +149,13 @@ class UserController extends BaseController {
     public function getLogin()
     {
         if(Auth::user()){
-            return Redirect::action('UserController@getIndex');
+            return Redirect::action('frontend\UserController@getIndex');
         }
 
-        return View::make('user/login');
+        $meta = $this->meta;
+        $meta['title'] = 'login';
+
+        return View::make('frontend/user/login', compact('title', 'meta'));
     }
 
     /**

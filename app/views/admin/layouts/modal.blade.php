@@ -1,4 +1,8 @@
-<head id="Project-Name">
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head id="Starter-Site">
 
 	<meta charset="UTF-8">
 
@@ -7,7 +11,7 @@
 
 	<title>
 		@section('title')
-			Project Name
+			{{{ $title }}} :: Administration
 		@show
 	</title>
 
@@ -40,17 +44,15 @@
 	<link rel="apple-touch-icon-precomposed" href="{{{ asset('assets/ico/apple-touch-icon-57-precomposed.png') }}}">
 
 	<!-- CSS -->
-	{{-- Main CSS files --}}
-	@yield('css')
+    {{ Basset::show('admin.css') }}
 
-	{{-- Extra CSS styles --}}
-	@section('styles')
-		<style type="text/css">
-			body {
-				padding: 60px 0;
-			}
-		</style>
-	@show
+	<style>
+	body {
+		padding: 60px 0;
+	}
+	</style>
+
+	@yield('styles')
 
 	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
@@ -73,3 +75,54 @@
 	</script> -->
 
 </head>
+
+<body>
+	<!-- Container -->
+	<div class="container">
+
+		<!-- Notifications -->
+		@include('notifications')
+		<!-- ./ notifications -->
+
+		<div class="page-header">
+			<h3>
+				{{ $title }}
+				<div class="pull-right">
+					<button class="btn-back close_popup"><i class="icon-circle-arrow-left icon-white"></i> Back</button>
+				</div>
+			</h3>
+		</div>
+
+		<!-- Content -->
+		@yield('content')
+		<!-- ./ content -->
+
+		<!-- Footer -->
+		<footer class="clearfix">
+			@yield('footer')
+		</footer>
+		<!-- ./ Footer -->
+
+	</div>
+	<!-- ./ container -->
+
+	<!-- Javascripts -->
+    {{ Basset::show('admin.js') }}
+
+    <script type="text/javascript">
+    	$(document).ready(function(){
+			$('.close_popup').click(function(){
+				parent.oTable.fnReloadAjax();
+				parent.$.colorbox.close();
+				return false;
+			});
+		});
+		$('.wysihtml5').wysihtml5();
+       	$(prettyPrint)
+    </script>
+
+    @yield('scripts')
+
+</body>
+
+</html>
