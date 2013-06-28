@@ -1,4 +1,4 @@
-@extends('template')
+@extends('frontend.template')
 
 {{-- Extra CSS styles --}}
 @section('syles')

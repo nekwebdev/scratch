@@ -1,10 +1,10 @@
 <?php
 
-class HomeController extends BaseController {
+class AdminHomeController extends BaseController {
 
 	/*
 	|--------------------------------------------------------------------------
-	| Home Controller
+	| Admin Home Controller
 	|--------------------------------------------------------------------------
 	*/
 
@@ -21,8 +21,8 @@ class HomeController extends BaseController {
 	public function getIndex()
 	{
         $meta = $this->meta;
-        $meta['title'] = 'Home Page';
-		return View::make('frontend/home', compact('meta'));
+        $meta['title'] = 'Admin Home Page';
+		return View::make('admin/home', compact('meta'));
 	}
 
 }

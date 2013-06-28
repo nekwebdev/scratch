@@ -17,13 +17,34 @@ App::bind('UserRepositoryInterface', 'EloquentUserRepository');
 |
 */
 
-// Route group for API versioning
+/**
+ * API Group
+ */
 Route::group(array('prefix' => 'api/v1'), function()
 {
     Route::resource('user', 'api\v1\UserController');
 });
 
-// Confide front end user controller routes
+/**
+ * Admin Group
+ */
+Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
+{
+    // Users Management
+    Route::get('users/data', 'AdminUsersController@data'); // Outputs Datatables json
+    Route::resource('users', 'AdminUsersController');
+
+    // User Role Management
+    Route::get('roles/data', 'AdminRolesController@data'); // Outputs Datatables json
+    Route::resource('roles', 'AdminRolesController');
+
+    // Admin Home Page
+    Route::controller('/', 'AdminHomeController');
+});
+
+/**
+ * Frontend Group
+ */
 Route::group(array('prefix' => 'user'), function()
 {
     Route::get('confirm/{code}', 'frontend\UserController@getConfirm');
@@ -31,6 +52,5 @@ Route::group(array('prefix' => 'user'), function()
 	Route::controller( '/', 'frontend\UserController');
 });
 
-
-// Home page routes
+// Home Page
 Route::controller( '/', 'HomeController');
