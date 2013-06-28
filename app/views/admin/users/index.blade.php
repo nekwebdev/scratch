@@ -38,5 +38,41 @@
 
 {{-- Extra JavaScripts --}}
 @section('scripts')
-	<script type="text/javascript"></script>
+	<script type="text/javascript">
+		// global var for callback
+		var oTable;
+
+		// on document ready initialize datatables.
+		$(function() {
+			oTable = $('#users').dataTable( {
+				"sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
+				"sPaginationType": "bootstrap",
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ records per page"
+				},
+				"bProcessing": true,
+		        "bServerSide": true,
+		        "sAjaxSource": "{{ URL::to('admin/users/data') }}",
+		        "fnDrawCallback": function ( oSettings ) {
+	           		$(".iframe").colorbox({
+	           			iframe:true,
+	           			width:"80%",
+	           			height:"80%",
+	           			onCleanup: function() {
+	         				oTable.fnReloadAjax();
+	    				}
+	           		});
+	     		}
+			});
+		});
+
+		// script to insert resource $id in the delete modal
+		$(document).on("click", ".delForm", function () {
+		     var idDel = $(this).data('id');
+		     var titleDel = $(this).data('title');
+		     $('#delete-modal #modal-title').html("{{ Lang::get('general.delete') }} " + titleDel + '?');
+		     $('#delete-modal form#delete-form').attr('action', "{{ URL::to('admin/users/') }}/" + idDel);
+		     $("#delete-modal input[name='id']").val( idDel );
+		});
+	</script>
 @stop
