@@ -11,7 +11,7 @@ class HomeController extends BaseController {
 	public function __construct()
     {
         $this->meta = array(
-            'title' => 'DefaulS',
+            'title' => 'Default',
             'author' => 'Me',
             'keywords' => 'Keywords',
             'description' => 'Description'
