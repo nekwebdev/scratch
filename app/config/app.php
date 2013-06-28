@@ -120,6 +120,7 @@ return array(
 		'Basset\BassetServiceProvider',
 		'Teepluss\Api\ApiServiceProvider',
 		'Former\FormerServiceProvider',
+        //'Bllim\Datatables\DatatablesServiceProvider',
 
 	),
 
@@ -192,6 +193,7 @@ return array(
 		'Basset' => 'Basset\Facade',
 		'API' => 'Teepluss\Api\Facades\Api',
 		'Former' => 'Former\Facades\Illuminate',
+		'Datatables'      => 'Bllim\Datatables\Datatables',
 
 	),
 

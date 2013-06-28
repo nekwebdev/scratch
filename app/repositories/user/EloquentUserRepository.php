@@ -1,19 +1,29 @@
 <?php
 
 /**
- * Repository for the User model
+ * Repository for the User model using Eloquent ORM
  */
 class EloquentUserRepository implements UserRepositoryInterface {
 
     /**
-     * Display the specified user.
+     * Return all possible users
      *
-     * @param  int $id ID of the user.
-     * @return object     returns the $user or a redirect to the admin index if no user is found.
+     * @return object All users.
+     */
+    public function findAll()
+    {
+        return User::all();
+    }
+
+    /**
+     * Display the specified user
+     *
+     * @param  int $id ID of the user
+     *
+     * @return object Specified user.
      */
     public function findById($id)
     {
-        // Look for a user with the corresponding ID.
         $user = User::where('id', $id)->first();
 
         if (!$user) throw new NotFoundException('User Not Found');
@@ -22,23 +32,14 @@ class EloquentUserRepository implements UserRepositoryInterface {
     }
 
     /**
-     * Returns all users.
-     * @return Object All users in database.
-     */
-    public function findAll()
-    {
-        return User::all();
-    }
-
-    /**
-     * Store a newly created user in storage.
+     * Store a new user
      *
-     * @param  input from POST $data POST data from the create form.
-     * @return redirect       redirect to the admin edit page of the new user, or back to the form in case of validation error.
+     * @param  array $data POST data from the request.
+     *
+     * @return object Created user.
      */
     public function store($data)
     {
-        // Validate the input.
         $this->validate($data, User::$rules);
 
         // Following is adapted from Confide generated controller.
@@ -65,11 +66,12 @@ class EloquentUserRepository implements UserRepositoryInterface {
     }
 
     /**
-     * Update the specified user in storage.
+     * Update the specified user
      *
-     * @param  int $id   ID of the user.
-     * @param  input from PUT $data data from the edit form.
-     * @return redirect       [description]
+     * @param  int   $id   ID of the user.
+     * @param  array $data PUT data from the request.
+     *
+     * @return object Updated user.
      */
     public function update($id, $data)
     {
@@ -102,8 +104,10 @@ class EloquentUserRepository implements UserRepositoryInterface {
 
     /**
      * Create a new Confide user object
+     *
      * @param  array  $data User data
-     * @return object       User object
+     *
+     * @return object User object
      */
     public function instance($data = array())
     {
@@ -111,9 +115,12 @@ class EloquentUserRepository implements UserRepositoryInterface {
     }
 
     /**
-     * validate data according to the User model rules
-     * @param  Input $data  Input to be validated
-     * @return varies       True or an Exception
+     * Validate data
+     *
+     * @param  array $data  Data to be validated.
+     * @param  array $rules Rules for validation.
+     *
+     * @return boot Always true if it returns.
      */
     public function validate($data, $rules)
     {

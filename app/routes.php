@@ -5,6 +5,7 @@
  *  ------------------------------------------
  */
 App::bind('UserRepositoryInterface', 'EloquentUserRepository');
+App::bind('RoleRepositoryInterface', 'EloquentRoleRepository');
 
 /*
 |--------------------------------------------------------------------------
@@ -31,8 +32,8 @@ Route::group(array('prefix' => 'api/v1'), function()
 Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 {
     // Users Management
-    Route::get('users/data', 'AdminUsersController@data'); // Outputs Datatables json
-    Route::resource('users', 'AdminUsersController');
+    //Route::get('users/data', 'AdminUsersController@data'); // Outputs Datatables json
+    Route::controller('users', 'admin\UserController');
 
     // User Role Management
     Route::get('roles/data', 'AdminRolesController@data'); // Outputs Datatables json

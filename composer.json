@@ -10,7 +10,8 @@
 		"fortawesome/font-awesome": "3.2.*@dev",
 		"jasonlewis/basset": "dev-master",
 		"teepluss/api": "dev-master",
-		"anahkiasen/former": "dev-agnostic"
+		"anahkiasen/former": "dev-agnostic",
+		"bllim/datatables": "*"
 	},
 	"require-dev": {
         "way/generators": "dev-master",

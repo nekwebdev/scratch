@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Interface for the User model repositories.
+ * Interface for the Role model repositories.
  */
-interface UserRepositoryInterface {
+interface RoleRepositoryInterface {
 
 	public function findAll();
 
@@ -13,12 +13,12 @@ interface UserRepositoryInterface {
 
 	public function update($id, $data);
 
+	public function destroy($id);
+
 	public function instance($data);
 
 	public function validate($data, $rules);
 
-	// public function destroy($id);
-
-	// public function data();
+	public function preparePermissionsForSave($permissions);
 
 }
